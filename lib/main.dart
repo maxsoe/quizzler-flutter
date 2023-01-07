@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'question.dart';
 
 void main() => runApp(Quizzler());
 
@@ -25,24 +26,24 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  List<Icon> scoreKeeper = [
-    Icon(
-      Icons.check,
-      color: Colors.green,
+  List<Icon> scoreKeeper = [];
+
+  List<Question> questionBank = [
+    Question(
+      q: 'You can lead a cow down stairs but not up stairs.',
+      a: false,
     ),
-    Icon(
-      Icons.close,
-      color: Colors.red,
+    Question(
+      q: 'Approximately one quarter of human bones are in the feet.',
+      a: true,
+    ),
+    Question(
+      q: 'A slug\'s blood is green.',
+      a: true,
     ),
   ];
 
-  List<String> questions = [
-    'You can lead a cow down stairs but not up stairs.',
-    'Approximately one quarter of human bones are in the feet.',
-    'A slug\'s blood is green.',
-  ];
-
-  int currentQuestionIndex = 0;
+  int index = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -50,13 +51,14 @@ class _QuizPageState extends State<QuizPage> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
+        Wrap(children: scoreKeeper),
         Expanded(
           flex: 5,
           child: Padding(
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                'Q${currentQuestionIndex + 1}: ${questions[currentQuestionIndex]}',
+                'Q${index}: ${questionBank[index].questionText}',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -66,7 +68,8 @@ class _QuizPageState extends State<QuizPage> {
             ),
           ),
         ),
-        Expanded(
+        Container(
+          height: 100,
           child: Padding(
             padding: EdgeInsets.all(15.0),
             child: TextButton(
@@ -84,22 +87,43 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                debugPrint('True clicked');
-                setState(() {
-                  if (currentQuestionIndex < questions.length - 1) {
-                    currentQuestionIndex++;
-                  }
+                debugPrint(
+                    'True clicked - q$index is ${questionBank[index].questionAnswer}.');
+                if (questionBank[index].questionAnswer == true) {
+                  debugPrint('Tick added');
+                  setState(() {
+                    scoreKeeper.add(Icon(
+                      Icons.check,
+                      color: Colors.green,
+                    ));
+                  });
+                } else {
+                  debugPrint('Incorrect answer - Cross added');
+                  setState(() {
+                    scoreKeeper.add(Icon(
+                      Icons.close,
+                      color: Colors.red,
+                    ));
+                  });
+                }
 
-                  scoreKeeper.add(Icon(
-                    Icons.check,
-                    color: Colors.green,
-                  ));
-                });
+                if (index < questionBank.length - 1) {
+                  setState(() {
+                    index++;
+                    debugPrint('index increased to $index');
+                  });
+                } else {
+                  setState(() {
+                    index = 0;
+                    debugPrint('index reset to $index');
+                  });
+                }
               },
             ),
           ),
         ),
-        Expanded(
+        Container(
+          height: 100,
           child: Padding(
             padding: EdgeInsets.all(15.0),
             child: TextButton(
@@ -107,7 +131,6 @@ class _QuizPageState extends State<QuizPage> {
                 foregroundColor: Colors.white,
                 backgroundColor: Colors.red,
               ),
-              // color: Colors.red,
               child: Text(
                 'False',
                 style: TextStyle(
@@ -116,17 +139,41 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                debugPrint('False clicked');
-                setState(() {
-                  if (currentQuestionIndex < questions.length - 1) {
-                    currentQuestionIndex++;
-                  }
-                });
+                debugPrint(
+                    'False clicked - q$index is ${questionBank[index].questionAnswer}.');
+                if (questionBank[index].questionAnswer == false) {
+                  debugPrint('Tick added');
+                  setState(() {
+                    scoreKeeper.add(Icon(
+                      Icons.check,
+                      color: Colors.green,
+                    ));
+                  });
+                } else {
+                  debugPrint('Incorrect answer - Cross added');
+                  setState(() {
+                    scoreKeeper.add(Icon(
+                      Icons.close,
+                      color: Colors.red,
+                    ));
+                  });
+                }
+
+                if (index < questionBank.length - 1) {
+                  setState(() {
+                    index++;
+                    debugPrint('index increased to $index');
+                  });
+                } else {
+                  setState(() {
+                    index = 0;
+                    debugPrint('index reset to $index');
+                  });
+                }
               },
             ),
           ),
         ),
-        Row(children: scoreKeeper),
       ],
     );
   }
