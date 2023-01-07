@@ -36,6 +36,14 @@ class _QuizPageState extends State<QuizPage> {
     ),
   ];
 
+  List<String> questions = [
+    'You can lead a cow down stairs but not up stairs.',
+    'Approximately one quarter of human bones are in the feet.',
+    'A slug\'s blood is green.',
+  ];
+
+  int currentQuestionIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -48,7 +56,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                'This is where the question text will go.',
+                'Q${currentQuestionIndex + 1}: ${questions[currentQuestionIndex]}',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -76,8 +84,12 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
+                debugPrint('True clicked');
                 setState(() {
-                  debugPrint('True clicked');
+                  if (currentQuestionIndex < questions.length - 1) {
+                    currentQuestionIndex++;
+                  }
+
                   scoreKeeper.add(Icon(
                     Icons.check,
                     color: Colors.green,
@@ -93,7 +105,7 @@ class _QuizPageState extends State<QuizPage> {
             child: TextButton(
               style: TextButton.styleFrom(
                 foregroundColor: Colors.white,
-                backgroundColor: Colors.green,
+                backgroundColor: Colors.red,
               ),
               // color: Colors.red,
               child: Text(
@@ -104,7 +116,12 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                //The user picked false.
+                debugPrint('False clicked');
+                setState(() {
+                  if (currentQuestionIndex < questions.length - 1) {
+                    currentQuestionIndex++;
+                  }
+                });
               },
             ),
           ),
