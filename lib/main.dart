@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'question.dart';
+import 'quiz_brain.dart';
+
+QuizBrain quizBrain = QuizBrain();
 
 void main() => runApp(Quizzler());
 
@@ -28,20 +30,20 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List<Icon> scoreKeeper = [];
 
-  List<Question> questionBank = [
-    Question(
-      q: 'You can lead a cow down stairs but not up stairs.',
-      a: false,
-    ),
-    Question(
-      q: 'Approximately one quarter of human bones are in the feet.',
-      a: true,
-    ),
-    Question(
-      q: 'A slug\'s blood is green.',
-      a: true,
-    ),
-  ];
+  // List<Question> questionBank = [
+  //   Question(
+  //     q: 'You can lead a cow down stairs but not up stairs.',
+  //     a: false,
+  //   ),
+  //   Question(
+  //     q: 'Approximately one quarter of human bones are in the feet.',
+  //     a: true,
+  //   ),
+  //   Question(
+  //     q: 'A slug\'s blood is green.',
+  //     a: true,
+  //   ),
+  // ];
 
   int index = 0;
 
@@ -58,7 +60,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                'Q${index}: ${questionBank[index].questionText}',
+                'Q$index: ${quizBrain.questionBank[index].questionText}',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -88,8 +90,8 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 debugPrint(
-                    'True clicked - q$index is ${questionBank[index].questionAnswer}.');
-                if (questionBank[index].questionAnswer == true) {
+                    'True clicked - q$index is ${quizBrain.questionBank[index].questionAnswer}.');
+                if (quizBrain.questionBank[index].questionAnswer == true) {
                   debugPrint('Tick added');
                   setState(() {
                     scoreKeeper.add(Icon(
@@ -107,7 +109,7 @@ class _QuizPageState extends State<QuizPage> {
                   });
                 }
 
-                if (index < questionBank.length - 1) {
+                if (index < quizBrain.questionBank.length - 1) {
                   setState(() {
                     index++;
                     debugPrint('index increased to $index');
@@ -140,8 +142,8 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 debugPrint(
-                    'False clicked - q$index is ${questionBank[index].questionAnswer}.');
-                if (questionBank[index].questionAnswer == false) {
+                    'False clicked - q$index is ${quizBrain.questionBank[index].questionAnswer}.');
+                if (quizBrain.questionBank[index].questionAnswer == false) {
                   debugPrint('Tick added');
                   setState(() {
                     scoreKeeper.add(Icon(
@@ -159,7 +161,7 @@ class _QuizPageState extends State<QuizPage> {
                   });
                 }
 
-                if (index < questionBank.length - 1) {
+                if (index < quizBrain.questionBank.length - 1) {
                   setState(() {
                     index++;
                     debugPrint('index increased to $index');
