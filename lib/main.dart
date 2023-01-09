@@ -30,25 +30,12 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List<Icon> scoreKeeper = [];
 
-  // List<Question> questionBank = [
-  //   Question(
-  //     q: 'You can lead a cow down stairs but not up stairs.',
-  //     a: false,
-  //   ),
-  //   Question(
-  //     q: 'Approximately one quarter of human bones are in the feet.',
-  //     a: true,
-  //   ),
-  //   Question(
-  //     q: 'A slug\'s blood is green.',
-  //     a: true,
-  //   ),
-  // ];
-
   int index = 0;
 
   @override
   Widget build(BuildContext context) {
+    index = quizBrain.getIndex();
+    debugPrint('index is now $index');
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -60,7 +47,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                'Q$index: ${quizBrain.questionBank[index].questionText}',
+                'Q$index: ${quizBrain.getQuestion(index)}',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -79,8 +66,6 @@ class _QuizPageState extends State<QuizPage> {
                 foregroundColor: Colors.white,
                 backgroundColor: Colors.green,
               ),
-              // textColor: Colors.white,
-              // color: Colors.green,
               child: Text(
                 'True',
                 style: TextStyle(
@@ -90,14 +75,18 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 debugPrint(
-                    'True clicked - q$index is ${quizBrain.questionBank[index].questionAnswer}.');
-                if (quizBrain.questionBank[index].questionAnswer == true) {
-                  debugPrint('Tick added');
+                    'True clicked - q$index is ${quizBrain.getAnswer(index)}');
+
+                bool correctAnswer = quizBrain.getAnswer(index);
+
+                if (correctAnswer) {
+                  debugPrint('Correct - Tick added');
                   setState(() {
                     scoreKeeper.add(Icon(
                       Icons.check,
                       color: Colors.green,
                     ));
+                    quizBrain.nextQuestion();
                   });
                 } else {
                   debugPrint('Incorrect answer - Cross added');
@@ -106,20 +95,21 @@ class _QuizPageState extends State<QuizPage> {
                       Icons.close,
                       color: Colors.red,
                     ));
+                    quizBrain.nextQuestion();
                   });
                 }
 
-                if (index < quizBrain.questionBank.length - 1) {
-                  setState(() {
-                    index++;
-                    debugPrint('index increased to $index');
-                  });
-                } else {
-                  setState(() {
-                    index = 0;
-                    debugPrint('index reset to $index');
-                  });
-                }
+                // if (index < quizBrain.getLength() - 1) {
+                //   setState(() {
+                //     index++;
+                //     debugPrint('index increased to $index');
+                //   });
+                // } else {
+                //   setState(() {
+                //     index = 0;
+                //     debugPrint('index reset to $index');
+                //   });
+                // }
               },
             ),
           ),
@@ -142,14 +132,16 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 debugPrint(
-                    'False clicked - q$index is ${quizBrain.questionBank[index].questionAnswer}.');
-                if (quizBrain.questionBank[index].questionAnswer == false) {
-                  debugPrint('Tick added');
+                    'False clicked - q$index is ${quizBrain.getAnswer(index)}.');
+                bool correctAnswer = quizBrain.getAnswer(index);
+                if (correctAnswer == false) {
+                  debugPrint('Correct - Tick added');
                   setState(() {
                     scoreKeeper.add(Icon(
                       Icons.check,
                       color: Colors.green,
                     ));
+                    quizBrain.nextQuestion();
                   });
                 } else {
                   debugPrint('Incorrect answer - Cross added');
@@ -158,20 +150,21 @@ class _QuizPageState extends State<QuizPage> {
                       Icons.close,
                       color: Colors.red,
                     ));
+                    quizBrain.nextQuestion();
                   });
                 }
 
-                if (index < quizBrain.questionBank.length - 1) {
-                  setState(() {
-                    index++;
-                    debugPrint('index increased to $index');
-                  });
-                } else {
-                  setState(() {
-                    index = 0;
-                    debugPrint('index reset to $index');
-                  });
-                }
+                // if (index < quizBrain.getLength() - 1) {
+                //   setState(() {
+                //     index++;
+                //     debugPrint('index increased to $index');
+                //   });
+                // } else {
+                //   setState(() {
+                //     index = 0;
+                //     debugPrint('index reset to $index');
+                //   });
+                // }
               },
             ),
           ),
