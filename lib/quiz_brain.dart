@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import 'question.dart';
 
 class QuizBrain {
@@ -56,7 +58,8 @@ class QuizBrain {
 
   //TODO: Step 3 Part A - Create a method called isFinished() here that checks to see if we have reached the last question. It should return (have an output) true if we've reached the last question and it should return false if we're not there yet.
   bool isFinish() {
-    if (_questionBank.length == 13) {
+    if (_index + 1 >= _questionBank.length) {
+      debugPrint('The game is done');
       return true;
     } else {
       return false;

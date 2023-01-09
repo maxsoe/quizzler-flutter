@@ -34,7 +34,7 @@ class _QuizPageState extends State<QuizPage> {
     bool correctAnswer = quizBrain.getAnswer();
 
     setState(() {
-      if (scoreKeeper.length == 13) {
+      if (quizBrain.isFinish()) {
         debugPrint('Game over');
 
         quizBrain.reset();
