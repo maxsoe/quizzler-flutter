@@ -30,12 +30,29 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List<Icon> scoreKeeper = [];
 
-  int index = 0;
+  void checkAnswer(bool userPickedAnswer) {
+    bool correctAnswer = quizBrain.getAnswer();
+
+    setState(() {
+      if (correctAnswer == userPickedAnswer) {
+        debugPrint('Correct - Tick added');
+        scoreKeeper.add(Icon(
+          Icons.check,
+          color: Colors.green,
+        ));
+      } else {
+        debugPrint('Incorrect answer - Cross added');
+        scoreKeeper.add(Icon(
+          Icons.close,
+          color: Colors.red,
+        ));
+      }
+      quizBrain.nextQuestion();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    index = quizBrain.getIndex();
-    debugPrint('index is now $index');
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -47,7 +64,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                'Q$index: ${quizBrain.getQuestion(index)}',
+                'Q${quizBrain.getIndex()}: ${quizBrain.getQuestion()}',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -75,41 +92,8 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 debugPrint(
-                    'True clicked - q$index is ${quizBrain.getAnswer(index)}');
-
-                bool correctAnswer = quizBrain.getAnswer(index);
-
-                if (correctAnswer) {
-                  debugPrint('Correct - Tick added');
-                  setState(() {
-                    scoreKeeper.add(Icon(
-                      Icons.check,
-                      color: Colors.green,
-                    ));
-                    quizBrain.nextQuestion();
-                  });
-                } else {
-                  debugPrint('Incorrect answer - Cross added');
-                  setState(() {
-                    scoreKeeper.add(Icon(
-                      Icons.close,
-                      color: Colors.red,
-                    ));
-                    quizBrain.nextQuestion();
-                  });
-                }
-
-                // if (index < quizBrain.getLength() - 1) {
-                //   setState(() {
-                //     index++;
-                //     debugPrint('index increased to $index');
-                //   });
-                // } else {
-                //   setState(() {
-                //     index = 0;
-                //     debugPrint('index reset to $index');
-                //   });
-                // }
+                    'True clicked - q${quizBrain.getIndex()} is ${quizBrain.getAnswer()}');
+                checkAnswer(true);
               },
             ),
           ),
@@ -132,39 +116,8 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 debugPrint(
-                    'False clicked - q$index is ${quizBrain.getAnswer(index)}.');
-                bool correctAnswer = quizBrain.getAnswer(index);
-                if (correctAnswer == false) {
-                  debugPrint('Correct - Tick added');
-                  setState(() {
-                    scoreKeeper.add(Icon(
-                      Icons.check,
-                      color: Colors.green,
-                    ));
-                    quizBrain.nextQuestion();
-                  });
-                } else {
-                  debugPrint('Incorrect answer - Cross added');
-                  setState(() {
-                    scoreKeeper.add(Icon(
-                      Icons.close,
-                      color: Colors.red,
-                    ));
-                    quizBrain.nextQuestion();
-                  });
-                }
-
-                // if (index < quizBrain.getLength() - 1) {
-                //   setState(() {
-                //     index++;
-                //     debugPrint('index increased to $index');
-                //   });
-                // } else {
-                //   setState(() {
-                //     index = 0;
-                //     debugPrint('index reset to $index');
-                //   });
-                // }
+                    'False clicked - q${quizBrain.getIndex()} is ${quizBrain.getAnswer()}.');
+                checkAnswer(false);
               },
             ),
           ),

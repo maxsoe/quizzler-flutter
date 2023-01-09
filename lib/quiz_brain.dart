@@ -42,12 +42,12 @@ class QuizBrain {
     return _index;
   }
 
-  String getQuestion(int questionNumber) {
-    return _questionBank[questionNumber].questionText;
+  String getQuestion() {
+    return _questionBank[_index].questionText;
   }
 
-  bool getAnswer(int questionNumber) {
-    return _questionBank[questionNumber].questionAnswer;
+  bool getAnswer() {
+    return _questionBank[_index].questionAnswer;
   }
 
   int getLength() {
