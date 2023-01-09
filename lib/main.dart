@@ -34,20 +34,27 @@ class _QuizPageState extends State<QuizPage> {
     bool correctAnswer = quizBrain.getAnswer();
 
     setState(() {
-      if (correctAnswer == userPickedAnswer) {
-        debugPrint('Correct - Tick added');
-        scoreKeeper.add(Icon(
-          Icons.check,
-          color: Colors.green,
-        ));
+      if (scoreKeeper.length == 13) {
+        debugPrint('Game over');
+
+        quizBrain.reset();
+        scoreKeeper.clear();
       } else {
-        debugPrint('Incorrect answer - Cross added');
-        scoreKeeper.add(Icon(
-          Icons.close,
-          color: Colors.red,
-        ));
+        if (correctAnswer == userPickedAnswer) {
+          debugPrint('Correct - Tick added');
+          scoreKeeper.add(Icon(
+            Icons.check,
+            color: Colors.green,
+          ));
+        } else {
+          debugPrint('Incorrect answer - Cross added');
+          scoreKeeper.add(Icon(
+            Icons.close,
+            color: Colors.red,
+          ));
+        }
+        quizBrain.nextQuestion();
       }
-      quizBrain.nextQuestion();
     });
   }
 
